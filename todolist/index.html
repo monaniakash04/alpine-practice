@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="../dependencies/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.js"
+      integrity="sha512-MnKz2SbnWiXJ/e0lSfSzjaz9JjJXQNb2iykcZkEY2WOzgJIWVqJBFIIPidlCjak0iTH2bt2u1fHQ4pvKvBYy6Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body
+    x-data="loadData()"
+    x-init="$watch('todoData',()=>alert('Operation Succesful'))"
+    class="w-full md:p-1 flex justify-center font-sans bg-blue-200"
+  >
+    <div
+      class="max-w-5xl md:p-9 bg-white rounded-3xl gap-5 flex flex-col items-center"
+    >
+      <div class="flex justify-center items-center gap-3">
+        <h1
+          class="md:text-5xl uppercase font-semibold font-sans mt-3 text-slate-800 text-sm"
+        >
+          Things To Do
+        </h1>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="md:size-9 size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+          />
+        </svg>
+      </div>
+      <div
+        class="max-w-2xl h-[70px] flex flex-wrap justify-center items-center p-1 gap-2"
+      >
+        <input
+          type="text"
+          x-model="inputTxt"
+          placeholder="Enter Task..."
+          class="md:px-4 max-w-xl py-1 px-[1px] rounded-md focus:border-blue-500 outline-none border"
+          id=""
+        />
+        <button
+          class="md:px-4 max-w-xl py-1 px-2 border-blue-600 cursor-pointer hover:text-white hover:bg-blue-600 border rounded-md text-blue-600"
+          type="button"
+          x-text="btnText"
+          @click="addTask()"
+        ></button>
+      </div>
+
+      <div class="max-w-3xl p-1 flex gap-2 flex-col min-h-screen">
+        <template x-for="(data,idx) in todoData" :key="idx">
+          <div
+            class="min-w-full border border-blue-500 rounded-md p-1 flex flex-wrap hover:shadow-2xl shadow-blue-300 bg-white items-center justify-center gap-4"
+          >
+            <h1
+              x-text="data.task"
+              class="sm:text-2xl uppercase text-lg sm:w-md max-w-md text-center"
+            ></h1>
+            <div class="flex justify-center gap-2 items-center">
+              <button
+                class="sm:px-4 gap-2 flex-wrap flex item-center text-green-500 justify-center sm:py-1 p-1 border-green-500 cursor-pointer hover:text-white hover:bg-green-500 border rounded-md"
+                type="button"
+                @click="editTask(data.id,data.task)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  />
+                </svg>
+
+                Edit
+              </button>
+              <button
+                @click="removeTask(data.id)"
+                class="sm:px-4 gap-2 flex item-center text-red-500 justify-center sm:py-1 p-1 border-red-500 cursor-pointer hover:text-white hover:bg-red-500 border rounded-md"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                  />
+                </svg>
+
+                Delete
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </body>
+  <script>
+    function loadData() {
+      return {
+        btnText: "ADD",
+        idForTheUpdate: null,
+        inputTxt: "",
+        todoData: [
+          { task: "This My First Task as as as as", id: "12aw323a" },
+          { task: "This My Second Task as as as", id: "12aw325a" },
+        ],
+        addTask: function () {
+          if (this.btnText == "ADD") {
+            const newId = uuidv4();
+            console.log(newId);
+            this.todoData.push({
+              id: newId,
+              task: this.inputTxt,
+            });
+          } else {
+            this.todoData = this.todoData.map((item) => {
+              return item.id == this.idForTheUpdate
+                ? { ...item, task: this.inputTxt }
+                : item;
+            });
+          }
+          this.inputTxt = "";
+          this.btnText = "ADD";
+        },
+        removeTask: function (id) {
+          this.todoData = this.todoData.filter((item) => {
+            return item.id != id;
+          });
+        },
+        editTask: function (id, task) {
+          this.inputTxt = task;
+          this.btnText = "EDIT";
+          this.idForTheUpdate = id;
+        },
+      };
+    }
+  </script>
+</html>

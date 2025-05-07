@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="./dependencies/cdn.min.js"></script>
+  </head>
+  <body>
+    <div
+      class="flex justify-center mt-5 gap-3 items-center"
+      x-data="loadData()"
+    >
+      <button
+        type="button"
+        @click="toggleBtn()"
+        class="px-4 cursor-pointer py-2 bg-blue-500 text-white font-semibold rounded-xl duration-300 hover:bg-blue-600"
+        x-text="btnText"
+      ></button>
+      <span x-show="isOpen" class="text-xl"
+        >This Content Can Hide And Show</span
+      >
+    </div>
+    <script>
+      function loadData() {
+        return {
+          open: true,
+          btnText: "The Content Is Now Shown",
+          isOpen: function () {
+            return this.open;
+          },
+          toggle: function () {
+            this.open = !this.open;
+          },
+          toggleBtn: function () {
+            this.toggle();
+            this.btnText =
+              this.open == true
+                ? "The Content Is Now Shown"
+                : "The Content Is Now Hide";
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

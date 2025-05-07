@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="./dependencies/cdn.min.js"></script>
+  </head>
+  <body>
+    <div
+      class="grid grid-cols-2 justify-center mt-5 gap-3 items-center"
+      x-data="loadData()"
+    >
+      <button
+        type="button"
+        @click="toggleBtn()"
+        class="px-4 cursor-pointer py-2 bg-blue-500 text-white font-semibold rounded-md duration-300 hover:bg-blue-600"
+        x-text="btnText"
+      ></button>
+      <div
+        x-show="isOpen"
+        x-transition:enter=" duration-2000 ease-in-out"
+        x-transition:enter-start="opacity-0 scale-0 scale-1"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave=" duration-2000 ease-in-out"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-0"
+      >
+        <span class="text-xl"
+          >This Content Can Hide And Show With Transition Effect Using
+          X-Tansiton
+        </span>
+      </div>
+    </div>
+    <script>
+      function loadData() {
+        return {
+          open: true,
+          btnText: "The Content Is Now Shown",
+          isOpen: function () {
+            return this.open;
+          },
+          toggle: function () {
+            this.open = !this.open;
+          },
+          toggleBtn: function () {
+            this.toggle();
+            this.btnText =
+              this.open == true
+                ? "The Content Is Now Shown"
+                : "The Content Is Now Hide";
+          },
+        };
+      }
+    </script>
+  </body>
+</html>
