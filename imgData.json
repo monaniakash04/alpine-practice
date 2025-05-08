@@ -1,0 +1,28 @@
+{
+  "imgs": [
+    {
+      "id": "15bf",
+      "image": "blob:http://127.0.0.1:5500/05dd48e6-e57a-44e9-987e-de8d2fdfbb4c"
+    },
+    {
+      "id": "135c",
+      "image": "blob:http://127.0.0.1:5500/bf58a015-d612-4674-b049-0e02c2deafed"
+    }
+  ],
+  "documents": [
+    {
+      "id": "0214",
+      "document": "blob:http://127.0.0.1:5500/57adf5f2-b05c-4b43-a843-107d2bb7201a"
+    }
+  ],
+  "pdfs": [
+    {
+      "id": "1c3a",
+      "pdf": "blob:http://127.0.0.1:5500/d6f2c598-1884-4bba-834f-20cc0f031b94"
+    },
+    {
+      "id": "463d",
+      "pdf": "blob:http://127.0.0.1:5500/c1ddbfaa-5636-4c06-9fd7-44215c74df12"
+    }
+  ]
+}
